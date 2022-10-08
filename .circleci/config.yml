@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Configure server
           command:  |
-            ansible-playbook playbook.yml
+            ansible-playbook -i inventory.txt playbook.yml
 
 workflows:
   create_infrastructure-workflow:
