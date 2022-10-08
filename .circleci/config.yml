@@ -23,18 +23,18 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-        fingerprints: ["b1:ca:3c:0f:a1:c2:f0:f4:5a:2f:16:04:e5:47:89:85"]
+          fingerprints: ["b1:ca:3c:0f:a1:c2:f0:f4:5a:2f:16:04:e5:47:89:85"]
       - run:
-        name: Install dependencies
-        command:  |
-          apk add --update ansible
+          name: Install dependencies
+          command:  |
+            apk add --update ansible
       - run:
-        name: Configure server
-        command:  |
-          ansible-playbook playbook.yml
+          name: Configure server
+          command:  |
+            ansible-playbook playbook.yml
 
 workflows:
   create_infrastructure-workflow:
     jobs:
-      - create_infrastructure
+      # - create_infrastructure
       - configure_infrastructure
