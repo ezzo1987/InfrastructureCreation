@@ -7,7 +7,7 @@ version: 2.1
 jobs:
   create_infrastructure:    
     docker:
-      - image: amazon/aws-cli        
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
@@ -17,7 +17,24 @@ jobs:
                 --template-file template.yml \
                 --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
                 --region us-east-1
+  configure_infrastructure:
+    docker:
+      - image: python:alpine
+    steps:
+      - checkout
+      - add_ssh_keys:
+        fingerprints: ["b1:ca:3c:0f:a1:c2:f0:f4:5a:2f:16:04:e5:47:89:85"]
+      - run:
+        name: Install dependencies
+        command:  |
+          apk add --update ansible
+      - run:
+        name: Configure server
+        command:  |
+          ansible-playbook playbook.yml
+
 workflows:
   create_infrastructure-workflow:
     jobs:
       - create_infrastructure
+      - configure_infrastructure
